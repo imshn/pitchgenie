@@ -1,341 +1,318 @@
-'use client'
+// This entire file is structured as a single Next.js page component.
+// NOTE: In a real project, all components using 'motion' must be in separate files
+// with the "use client" directive at the very top.
+"use client";
+import React from 'react';
+import cn from 'clsx'; 
+import { motion } from 'framer-motion';
+// --- Lucide Icons Imports ---
+import { 
+    Mail, Link, Clock, Search, Briefcase, Zap, Globe, User, Shield, Target, Menu, Phone
+} from 'lucide-react'; 
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
-import Link from 'next/link'
+// --- 1. Component Placeholders (Styling only) ---
 
-const FeatureIcon = ({ type }: { type: number }) => {
-  const icons = {
-    1: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-    2: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    3: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-      </svg>
-    ),
-    4: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
-    5: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    6: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
-  }
-  return <div className="text-cyan-400">{icons[type as keyof typeof icons]}</div>
-}
+const MagicGlobe = () => (
+  <div className="absolute inset-0 z-0 opacity-50">
+    {/* [MagicUI Globe/Particles Component Placeholder] */}
+    <div className="w-full h-full bg-gradient-to-t from-[#0E0E11] via-transparent to-transparent" />
+  </div>
+);
 
-export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+const Spotlight = ({ className, fill }: { className?: string, fill?: string }) => (
+  <div className={cn("absolute h-screen w-screen pointer-events-none", className)}>
+    {/* [Aceternity Spotlight Component Placeholder] */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full w-[400px] h-[400px] blur-[150px]" 
+         style={{ background: fill || 'radial-gradient(circle, rgba(239,68,68,0.3) 0%, rgba(14,14,17,0) 70%)' }} />
+  </div>
+);
+
+// --- 2. Client-Side Components (Requires "use client") ---
+
+// Client Component for 3D Feature Cards
+const FeatureCard3D = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+  <motion.div 
+    initial={{ rotateX: 0, rotateY: 0 }}
+    whileHover={{ rotateX: 2, rotateY: -2 }}
+    transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
+    className={cn(
+      "relative p-6 bg-black/30 border border-white/5 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-neon-glow transition-all duration-300 transform-gpu",
+      className
+    )}
+    style={{ transformStyle: "preserve-3d" }}
+  >
+    {children}
+  </motion.div>
+);
+
+// Client Component for Product Preview Animation
+const AnimatedProductDemoCard = () => (
+  <motion.div
+    initial={{ rotateX: 10, rotateY: -10, scale: 0.8, opacity: 0 }}
+    whileInView={{ rotateX: 0, rotateY: 0, scale: 1, opacity: 1 }}
+    transition={{ duration: 1.2, type: "spring", stiffness: 50 }}
+    viewport={{ once: true, amount: 0.3 }}
+    className="relative w-full h-[450px] md:h-[600px] bg-black/50 border-2 border-blue-500/50 rounded-3xl shadow-[0_0_100px_rgba(59,130,246,0.3)] p-4 transform-gpu"
+    style={{ perspective: 1000 }}
+  >
+    <div className="absolute inset-0 bg-gray-900/50 rounded-2xl flex items-center justify-center">
+      <div className="absolute inset-4 rounded-xl bg-gray-800/80 border border-blue-500/10 flex items-center justify-center">
+        <Globe className="w-16 h-16 text-blue-400 opacity-60 mb-4" />
+        <p className="text-white/80 text-lg">AI-Powered Dashboard View</p>
+      </div>
+      
+      <button className="absolute bottom-8 right-8 px-6 py-3 bg-red-600 text-white font-bold rounded-full flex items-center space-x-2 shadow-lg hover:bg-red-500 transition">
+        <Target className="w-5 h-5" />
+        <span>Watch 60 sec demo</span>
+      </button>
+    </div>
+    
+    <div className="absolute inset-0 rounded-3xl border-4 border-transparent bg-clip-border bg-gradient-to-br from-red-500/50 to-blue-500/50 opacity-50" />
+  </motion.div>
+);
+
+
+// --- 3. Navigation Header ---
+
+const Header = () => (
+    <header className="sticky top-0 z-50 w-full bg-[#0E0E11]/90 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            {/* Logo/Brand */}
+            <a href="#" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-500">
+                PitchGenie<span className="text-white/80">.in</span>
+            </a>
+            
+            {/* Navigation Links (Desktop) */}
+            <nav className="hidden md:flex space-x-8">
+                {['Features', 'Demo', 'Advantage', 'Contact'].map((item) => (
+                    <a 
+                        key={item} 
+                        href={`#${item.toLowerCase()}`} 
+                        className="text-white/70 hover:text-red-500 transition font-medium"
+                    >
+                        {item}
+                    </a>
+                ))}
+            </nav>
+
+            {/* CTA Button */}
+            <button className="hidden md:block px-4 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-red-600 to-blue-600 text-white shadow-md shadow-red-500/30 hover:from-red-500 hover:to-blue-500 transition">
+                Join Beta
+            </button>
+
+            {/* Mobile Menu Icon */}
+            <button className="md:hidden text-white">
+                <Menu className="w-6 h-6" />
+            </button>
+        </div>
+    </header>
+);
+
+
+// --- 4. Main Sections (Server Components) ---
+
+const HeroSection = () => (
+  <section className="relative h-screen flex items-center justify-center overflow-hidden text-center pt-24 pb-12 bg-[#0E0E11]">
+    <MagicGlobe />
+    <Spotlight className="top-0 left-1/2 -translate-x-1/2 h-[800px] w-[800px]" fill="rgba(239,68,68, 0.4)" />
+    
+    <div className="relative z-10 max-w-4xl px-4">
+      {/* Floating Icons (Conceptual Visuals) */}
+      <div className="absolute -top-10 left-1/4 animate-pulse"><Zap className="w-8 h-8 text-red-400" /></div>
+      <div className="absolute top-10 right-1/4 animate-bounce-slow"><Link className="w-8 h-8 text-blue-400" /></div>
+      <div className="absolute bottom-0 left-1/3 animate-spin-slow-reverse"><Mail className="w-8 h-8 text-red-400" /></div>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-6xl md:text-8xl font-extrabold tracking-tight bg-clip-text text-white mb-6"
+      >
+        AI Outreach Reinvented.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-10"
+      >
+        Generate high-converting B2B emails, sequences & LinkedIn messages — powered by **deep personalization** and lead intelligence.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+        className="flex justify-center space-x-4"
+      >
+        <button className="px-8 py-3 text-lg font-semibold rounded-full bg-gradient-to-r from-red-600 to-blue-600 text-white shadow-lg shadow-red-500/50 hover:from-red-500 hover:to-blue-500 transition duration-300 transform hover:scale-105">
+          Join the Beta
+        </button>
+        <button className="px-8 py-3 text-lg font-semibold rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition duration-300">
+          Watch Demo
+        </button>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const FeatureGrid = () => {
+  const features = [
+    { title: "AI Cold Email Generator", description: "Hyper-personalized outreach crafted by expert-tuned AI, using real-time data.", icon: Mail },
+    { title: "LinkedIn Personalizer", description: "Auto-writes connection requests & timely follow-ups to keep the conversation flowing.", icon: Link },
+    { title: "Email Sequences (3–5 Steps)", description: "Build professional, multi-touch flows for B2B outreach with automatic delay and smart sequencing.", icon: Clock },
+    { title: "Smart Web Scraper", description: "PitchGenie scrapes target websites (About, Services, Founder) to inject deep personalization.", icon: Search },
+    { title: "CRM Workspace", description: "All-in-one lead table with tags, notes, statuses, and timeline events for full context.", icon: Briefcase },
+    { title: "AI Personas & Industry Modes", description: "Emails adapt to your role (Founder, SDR) and target industry (SaaS, Real Estate) for perfect tone.", icon: User },
+  ];
 
   return (
-    <main className="bg-black">
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo on the left */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">P</span>
-              </div>
-              <span className="text-white font-bold text-lg">PitchGenie</span>
-            </div>
+    <section id="features" className="py-24 px-4 bg-[#0E0E11] relative">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
+        Engineered for Enterprise Outreach
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {features.map((feature, index) => (
+          <FeatureCard3D key={index} className="hover:border-red-400/50">
+            <feature.icon className="w-8 h-8 mb-4 text-red-400/80" />
+            <h3 className="text-2xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">{feature.title}</h3>
+            <p className="text-white/60">{feature.description}</p>
+          </FeatureCard3D>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-            {/* Navigation centered */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-white/70 hover:text-white transition-colors text-sm">Features</a>
-              <a href="#why" className="text-white/70 hover:text-white transition-colors text-sm">Why Choose</a>
-              <a href="#demo" className="text-white/70 hover:text-white transition-colors text-sm">Demo</a>
-              <Link href="/contact" className="text-white/70 hover:text-white transition-colors text-sm">Contact</Link>
-            </div>
+const ProductDemoSection = () => (
+  <section id="demo" className="py-24 px-4 bg-[#0E0E11] relative overflow-hidden">
+    <Spotlight className="top-1/4 right-0 h-[600px] w-[600px]" fill="rgba(59, 130, 246, 0.2)" />
+    <div className="max-w-6xl mx-auto text-center">
+      <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        The Future of Lead Intelligence
+      </h2>
+      <p className="text-xl text-white/70 max-w-3xl mx-auto mb-16">
+        A clean, intuitive workspace where data and AI converge to drive meaningful conversations.
+      </p>
+      <AnimatedProductDemoCard /> 
+    </div>
+  </section>
+);
 
-            {/* CTA button on the right */}
-            <div className="hidden md:block">
-              <button className="px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm">
-                Join Beta
-              </button>
-            </div>
 
-            {/* Mobile menu button */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
+const WhyPitchGenie = () => {
+  const points = [
+    { title: "Enterprise-Grade Infrastructure", description: "Built on battle-tested systems for high availability and security.", icon: Globe },
+    { title: "Lightning-Fast AI", description: "Powered by advanced models (soon Groq for free inference) for instant generation.", icon: Zap },
+    { title: "Secure & Reliable Backend", description: "Using Google Firestore for secure, scalable data management.", icon: Shield },
+    { title: "Designed for SDR Workflows", description: "More than just emails—a complete system for BDRs, SDRs, and Growth teams.", icon: Target },
+  ];
 
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-black border-t border-white/10 p-4 space-y-4 mt-4">
-              <a href="#features" className="block text-white/70 hover:text-white">Features</a>
-              <a href="#why" className="block text-white/70 hover:text-white">Why Choose</a>
-              <a href="#demo" className="block text-white/70 hover:text-white">Demo</a>
-              <Link href="/contact" className="block text-white/70 hover:text-white">Contact</Link>
-            </div>
-          )}
+  return (
+    <section id="advantage" className="py-24 px-4 bg-[#0E0E11] relative">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
+            The PitchGenie Advantage
+        </h2>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+            {points.map((point, index) => (
+                <div
+                    key={index}
+                    className="p-6 border border-white/5 rounded-xl bg-black/40 backdrop-blur-sm hover:border-blue-400/40 transition duration-300"
+                >
+                    <point.icon className="w-10 h-10 mb-4 text-blue-400/80" />
+                    <h3 className="text-xl font-semibold mb-2 text-white">{point.title}</h3>
+                    <p className="text-white/60 text-sm">{point.description}</p>
+                </div>
+            ))}
         </div>
+    </section>
+  );
+};
+
+const EarlyAccessCTA = () => (
+    <section className="py-24 px-4 bg-[#0E0E11] relative overflow-hidden">
+        <Spotlight className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px]" fill="rgba(239,68,68,0.4)" />
+        <div className="max-w-3xl mx-auto text-center relative z-10 p-10 bg-black/30 border border-white/5 rounded-3xl backdrop-blur-sm">
+            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-blue-400 mb-4">
+                Join the Founding Team
+            </h2>
+            <p className="text-xl text-white/70 mb-8">
+                Be one of the first founders and agencies to use PitchGenie. Limited slots available.
+            </p>
+            <form className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+                <input
+                    type="email"
+                    placeholder="Enter your professional email"
+                    required
+                    className="flex-1 px-5 py-3 rounded-full bg-black border border-white/10 text-white placeholder-white/50 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition"
+                />
+                <button 
+                    type="submit"
+                    className="px-8 py-3 font-semibold rounded-full bg-gradient-to-r from-red-600 to-blue-600 text-white shadow-lg shadow-red-500/50 hover:from-red-500 hover:to-blue-500 transition duration-300 transform hover:scale-[1.02]"
+                >
+                    Get Early Access
+                </button>
+            </form>
+        </div>
+    </section>
+);
+
+const ContactSection = () => (
+    <section id="contact" className="py-24 px-4 bg-black border-t border-white/5">
+        <div className="max-w-xl mx-auto text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+                Get in Touch
+            </h2>
+            <p className="text-lg text-white/70 mb-10">
+                For enterprise inquiries, partnerships, or support, reach out to our team directly.
+            </p>
+            <div className="space-y-4">
+                <div className="flex items-center justify-center space-x-3">
+                    <Mail className="w-6 h-6 text-red-500" />
+                    <a href="mailto:sales@pitchgenie.in" className="text-xl text-white hover:text-red-400 transition">
+                        sales@pitchgenie.in
+                    </a>
+                </div>
+                <div className="flex items-center justify-center space-x-3">
+                    <Phone className="w-6 h-6 text-blue-500" />
+                    <p className="text-xl text-white">+1 (555) 123-4567</p>
+                </div>
+            </div>
+        </div>
+    </section>
+);
+
+const Footer = () => (
+  <footer className="py-8 px-4 bg-black border-t border-white/5">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-white/50 text-sm">
+      <p className="mb-4 md:mb-0">© PitchGenie 2025. All rights reserved.</p>
+      <nav className="flex space-x-6">
+        <a href="#" className="hover:text-white transition">Privacy Policy</a>
+        <a href="#" className="hover:text-white transition">Terms of Service</a>
+        <a href="#contact" className="hover:text-white transition">Contact</a>
       </nav>
+    </div>
+  </footer>
+);
 
-      {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black px-4 py-20 pt-32">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-cyan-500/20 via-transparent to-transparent rounded-full blur-3xl opacity-40" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-purple-500/20 via-transparent to-transparent rounded-full blur-3xl opacity-40" />
-        </div>
-        <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
-          <div className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-xs font-medium text-white/80">AI-Powered B2B Outreach</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-white via-cyan-300 to-white bg-clip-text text-transparent">Transform</span> <span className="text-white">Your Sales.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl leading-relaxed">
-            Generate personalized cold emails and LinkedIn messages with AI. Close more deals in less time.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-20">
-            <button className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity">
-              Join the Beta
-            </button>
-            <button className="px-8 py-3 rounded-full bg-white/5 border border-white/20 text-white font-semibold hover:bg-white/10 transition-colors backdrop-blur-xl">
-              See How It Works
-            </button>
-          </div>
-          <div className="w-full max-w-3xl grid grid-cols-3 gap-4 md:gap-6">
-            {[{ label: 'Cold Emails' }, { label: 'LinkedIn Automation' }, { label: 'AI Personalization' }].map((item, idx) => (
-              <div key={idx} className="group relative h-28 rounded-2xl overflow-hidden cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 backdrop-blur-xl" />
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative h-full flex flex-col items-center justify-center gap-3 p-4">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/30 flex items-center justify-center">
-                    <FeatureIcon type={(idx + 1) as any} />
-                  </div>
-                  <p className="text-xs md:text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">{item.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Features */}
-      <section id="features" className="relative min-h-screen py-24 px-4 bg-black overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-transparent via-purple-500/5 to-transparent" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Powerful AI Features</h2>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto">Everything you need to scale outreach from research to close</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { 
-                icon: 1,
-                title: 'AI Cold Email Generator', 
-                desc: 'Personalized emails that convert. Our AI analyzes prospects and creates authentic messages that feel genuinely personal—not templated.',
-              },
-              { 
-                icon: 2,
-                title: 'LinkedIn Automation', 
-                desc: 'Strategic sequences that scale. Connect with prospects and nurture relationships with AI-powered messages that increase acceptance rates by 3x.',
-              },
-              { 
-                icon: 3,
-                title: 'Email Sequences', 
-                desc: 'Multi-touch campaigns that work. Adaptive sequences respond to prospect behavior and nurture leads automatically from outreach to close.',
-              },
-              { 
-                icon: 4,
-                title: 'Company Intelligence', 
-                desc: 'Deep prospect research at scale. Automatic insights on company size, tech stack, funding, and team changes to craft compelling pitches.',
-              },
-              { 
-                icon: 5,
-                title: 'Lead Dashboard', 
-                desc: 'Unified control center. Track engagement, organize leads, and monitor results—all in one intuitive interface for your entire team.',
-              },
-              { 
-                icon: 6,
-                title: 'Adaptive AI Modes', 
-                desc: 'Industry-specific intelligence. Customized approach for founders, agencies, SDRs, and recruiters with tone and strategy that match your role.',
-              },
-            ].map((f, idx) => (
-              <div key={idx} className="group rounded-2xl overflow-hidden cursor-pointer">
-                <div className="relative p-8 h-full flex flex-col justify-between border border-white/10 backdrop-blur-xl bg-white/5 hover:bg-white/10 transition-colors duration-300 rounded-2xl">
-                  <div>
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/30 flex items-center justify-center mb-4">
-                      <FeatureIcon type={f.icon as any} />
-                    </div>
-                    <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
-                    <p className="text-white/70 text-sm leading-relaxed">{f.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+// --- Main Page Component ---
+const PitchGenieLandingPage = () => {
+  return (
+    <div className="min-h-screen bg-[#0E0E11] text-white font-sans antialiased">
+      <Header />
+      <main>
+        <HeroSection />
+        <FeatureGrid />
+        <ProductDemoSection />
+        <WhyPitchGenie />
+        <EarlyAccessCTA />
+        <ContactSection /> {/* New Contact Section */}
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-      {/* Demo */}
-      <section id="demo" className="relative min-h-screen py-24 px-4 bg-black overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/3 right-0 w-96 h-96 bg-gradient-to-l from-cyan-500/15 to-transparent rounded-full blur-3xl opacity-50" />
-        </div>
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">See It In Action</h2>
-            <p className="text-lg text-white/60">Watch how PitchGenie transforms your outreach</p>
-          </div>
-          <div className="relative group cursor-pointer rounded-2xl overflow-hidden">
-            <div className="relative aspect-video bg-gradient-to-br from-black via-slate-900 to-black flex flex-col items-center justify-center gap-6 p-12 border border-white/10 backdrop-blur-xl rounded-2xl">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow">
-                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <div className="text-center">
-                <p className="text-white text-lg font-semibold">60 Second Demo</p>
-                <p className="text-white/60 text-sm mt-2">See personalized campaigns in action</p>
-              </div>
-            </div>
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 mt-20">
-            {[{ number: '5x', label: 'Faster Setup' }, { number: '93%', label: 'Higher Open Rates' }, { number: '3x', label: 'More Connections' }].map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">{stat.number}</div>
-                <p className="text-white/70">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="why" className="relative min-h-screen py-24 px-4 bg-black overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-gradient-to-t from-purple-500/15 to-transparent rounded-full blur-3xl opacity-50" />
-        </div>
-        <div className="relative z-10 max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Why Choose PitchGenie?</h2>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto">The platform trusted by 1000+ teams to close bigger deals faster</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {[
-              { 
-                title: 'Enterprise Security', 
-                desc: 'Military-grade encryption, SOC 2 Type II compliant, 99.99% uptime. Your data is protected with industry-leading security standards.' 
-              },
-              { 
-                title: 'Lightning Fast', 
-                desc: 'Generate entire campaigns in seconds. Test variations, iterate quickly, and outpace your competition with instant AI-powered responses.' 
-              },
-              { 
-                title: 'Built by Sales Experts', 
-                desc: 'Every feature designed by SDRs and sales leaders who understand real workflow challenges. Workflows built for practitioners, not theorists.' 
-              },
-              { 
-                title: 'Always Improving', 
-                desc: 'Cutting-edge AI powered by OpenAI and Groq. Models continuously learn from your best-performing campaigns to get smarter.' 
-              },
-              { 
-                title: 'Transparent Pricing', 
-                desc: 'Pay only for what you use with per-email pricing. No long-term contracts, no hidden fees, no surprise charges. Complete pricing transparency.' 
-              },
-              { 
-                title: 'Trusted at Scale', 
-                desc: '1000+ founders and teams across industries already closing bigger deals with PitchGenie every day. Proven results across B2B, SaaS, and agencies.' 
-              },
-            ].map((b, idx) => (
-              <div key={idx} className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/50 flex items-center justify-center">
-                  <span className="text-sm font-bold text-cyan-400">{idx + 1}</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">{b.title}</h3>
-                  <p className="text-white/70 text-sm leading-relaxed">{b.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="relative py-24 px-4 bg-black overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-gradient-to-b from-cyan-500/20 via-purple-500/10 to-transparent rounded-full blur-3xl opacity-50" />
-        </div>
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Start Closing Bigger Deals Today</h2>
-            <p className="text-lg text-white/60">Join 1000+ teams transforming their outreach with PitchGenie</p>
-          </div>
-          <form className="relative">
-            <div className="flex flex-col sm:flex-row gap-3 p-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
-              <input type="email" placeholder="your@email.com" className="flex-1 bg-transparent px-6 py-3 text-white placeholder-white/40 outline-none" required />
-              <button type="submit" className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity whitespace-nowrap">
-                Get Access
-              </button>
-            </div>
-          </form>
-          <p className="text-center text-sm text-white/50 mt-6">Limited beta spots available</p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black border-t border-white/5 px-4 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-4">PitchGenie</h3>
-              <p className="text-sm text-white/60 leading-relaxed">AI platform trusted by 1000+ founders and sales teams. We help ambitious teams close bigger deals through personalized, data-driven outreach.</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-white/60">
-                <li><a href="#features" className="hover:text-cyan-400 transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">API</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-white/60">
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-white/60">
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Terms</a></li>
-                <li><Link href="/contact" className="hover:text-cyan-400 transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-white/5 pt-8 text-center text-sm text-white/60">
-            <p>© 2025 PitchGenie. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </main>
-  )
-}
+export default PitchGenieLandingPage;

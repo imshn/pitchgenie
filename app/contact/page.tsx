@@ -1,203 +1,214 @@
-'use client'
+// This file assumes the necessary components (Header, Footer, Spotlight)
+// and utilities (cn, motion) are imported and configured from the main project.
+// In a real setup, this file must start with "use client";
+"use client";
+import React from 'react';
+import cn from 'clsx'; 
+import { motion } from 'framer-motion';
+import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react'; 
 
-import { useState } from 'react'
-import Link from 'next/link'
+// --- Component Placeholders (Reused from previous structure) ---
 
-export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: ''
-  })
-  const [submitted, setSubmitted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+const Spotlight = ({ className, fill }: { className?: string, fill?: string }) => (
+  <div className={cn("absolute h-screen w-screen pointer-events-none", className)}>
+    {/* [Aceternity Spotlight Component Placeholder] */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full w-[400px] h-[400px] blur-[150px]" 
+         style={{ background: fill || 'radial-gradient(circle, rgba(239,68,68,0.3) 0%, rgba(14,14,17,0) 70%)' }} />
+  </div>
+);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-  }
-
-  return (
-    <main className="bg-black min-h-screen">
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo on the left */}
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">P</span>
-              </div>
-              <span className="text-white font-bold text-lg">PitchGenie</span>
-            </Link>
-
-            {/* Navigation centered */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="/#features" className="text-white/70 hover:text-white transition-colors text-sm">Features</a>
-              <a href="/#why" className="text-white/70 hover:text-white transition-colors text-sm">Why Choose</a>
-              <a href="/#demo" className="text-white/70 hover:text-white transition-colors text-sm">Demo</a>
-              <a href="/contact" className="text-cyan-400 font-medium transition-colors text-sm">Contact</a>
-            </div>
-
-            {/* CTA button on the right */}
-            <div className="hidden md:block">
-              <button className="px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm">
-                Join Beta
-              </button>
-            </div>
-
-            {/* Mobile menu button */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-black border-t border-white/10 p-4 space-y-4 mt-4">
-              <a href="/#features" className="block text-white/70 hover:text-white">Features</a>
-              <a href="/#why" className="block text-white/70 hover:text-white">Why Choose</a>
-              <a href="/#demo" className="block text-white/70 hover:text-white">Demo</a>
-              <a href="/contact" className="block text-cyan-400 font-medium">Contact</a>
-            </div>
-          )}
+// Placeholder for the shared Header (Ensure it links back to home)
+const Header = () => (
+    <header className="sticky top-0 z-50 w-full bg-[#0E0E11]/90 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-500">
+                PitchGenie<span className="text-white/80">.in</span>
+            </a>
+            <a href="/" className="text-white/70 hover:text-red-500 transition font-medium">
+                ← Back to Home
+            </a>
         </div>
-      </nav>
+    </header>
+);
 
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-20 pt-32">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-gradient-to-br from-cyan-500/15 via-transparent to-transparent rounded-full blur-3xl opacity-60" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-tl from-purple-500/15 via-transparent to-transparent rounded-full blur-3xl opacity-60" />
-          <div className="absolute top-1/2 right-0 w-96 h-96 bg-gradient-to-l from-emerald-500/10 via-transparent to-transparent rounded-full blur-3xl opacity-40" />
+// Placeholder for the shared Footer
+const Footer = () => (
+    <footer className="py-8 px-4 bg-black border-t border-white/5">
+        <div className="max-w-7xl mx-auto text-white/50 text-sm text-center">
+            © PitchGenie 2025. All rights reserved.
         </div>
+    </footer>
+);
 
-        <div className="relative z-10 max-w-2xl w-full">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Get in Touch</h1>
-            <p className="text-lg text-white/60">Have questions about PitchGenie? We'd love to help you start closing bigger deals.</p>
-          </div>
 
-          <div className="relative p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
-            {submitted && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-2xl backdrop-blur-sm">
-                <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center mx-auto mb-3">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <p className="text-white text-xl font-semibold">Message sent successfully!</p>
-                  <p className="text-white/60 text-sm mt-2">We'll get back to you within 24 hours.</p>
-                </div>
-              </div>
-            )}
+// ------------------------------------------------------------------------
+// 1. Contact Form Component (Interactive and Client-side focused)
+// ------------------------------------------------------------------------
+const ContactForm = () => {
+    // In a real app, this would handle form state and submission logic
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        alert('Thank you for your message! We will be in touch shortly.');
+    };
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Full Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
-                  placeholder="Your name"
+    const inputClasses = "w-full p-4 rounded-xl bg-black/50 border border-white/10 text-white placeholder-white/50 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition shadow-inner";
+    const labelClasses = "block text-sm font-medium text-white/70 mb-2";
+
+    return (
+        <motion.form 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            onSubmit={handleSubmit}
+            className="w-full bg-black/40 border border-white/5 p-8 md:p-12 rounded-2xl backdrop-blur-md shadow-2xl space-y-6"
+        >
+            <h3 className="text-3xl font-bold text-white mb-6">
+                Send Us a Message
+            </h3>
+            
+            <div>
+                <label htmlFor="name" className={labelClasses}>Full Name</label>
+                <input type="text" id="name" required className={inputClasses} placeholder="John Doe" />
+            </div>
+
+            <div>
+                <label htmlFor="email" className={labelClasses}>Work Email</label>
+                <input type="email" id="email" required className={inputClasses} placeholder="name@company.com" />
+            </div>
+
+            <div>
+                <label htmlFor="subject" className={labelClasses}>Subject</label>
+                <input type="text" id="subject" required className={inputClasses} placeholder="Enterprise Inquiry / Support Request" />
+            </div>
+
+            <div>
+                <label htmlFor="message" className={labelClasses}>Your Message</label>
+                <textarea 
+                    id="message" 
+                    rows={5} 
+                    required 
+                    className={cn(inputClasses, "resize-none")} 
+                    placeholder="Tell us about your outreach goals..." 
                 />
-              </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
-                  placeholder="your@email.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Company</label>
-                <input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all"
-                  placeholder="Your company name"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-white mb-2">Message</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all resize-none"
-                  placeholder="How can we help you? Tell us about your outreach goals..."
-                />
-              </div>
-
-              <button
+            <button 
                 type="submit"
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
+                className="w-full py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-red-600 to-blue-600 text-white flex items-center justify-center space-x-2 shadow-lg shadow-red-500/50 hover:from-red-500 hover:to-blue-500 transition duration-300 transform hover:scale-[1.01]"
+            >
+                <Send className="w-5 h-5" />
+                <span>Submit Inquiry</span>
+            </button>
+        </motion.form>
+    );
+};
 
-          <div className="mt-16 grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg bg-white/5 border border-white/10 backdrop-blur-xl text-center hover:bg-white/10 transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/50 flex items-center justify-center mx-auto mb-3">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Email</h3>
-              <p className="text-white/60 text-sm">hello@pitchgenie.com</p>
-            </div>
-            <div className="p-6 rounded-lg bg-white/5 border border-white/10 backdrop-blur-xl text-center hover:bg-white/10 transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/50 flex items-center justify-center mx-auto mb-3">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Response Time</h3>
-              <p className="text-white/60 text-sm">Within 24 hours</p>
-            </div>
-            <div className="p-6 rounded-lg bg-white/5 border border-white/10 backdrop-blur-xl text-center hover:bg-white/10 transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/50 flex items-center justify-center mx-auto mb-3">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                </svg>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Location</h3>
-              <p className="text-white/60 text-sm">San Francisco, CA</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="bg-black border-t border-white/5 px-4 py-8">
-        <div className="max-w-6xl mx-auto text-center text-sm text-white/60">
-          <p>© 2025 PitchGenie. All rights reserved.</p>
+// ------------------------------------------------------------------------
+// 2. Info Cards Component
+// ------------------------------------------------------------------------
+const InfoCards = () => {
+    const cards = [
+        { 
+            icon: Mail, 
+            title: "Sales & Enterprise", 
+            details: "sales@pitchgenie.in", 
+            action: "mailto:sales@pitchgenie.in",
+            iconColor: "text-red-500"
+        },
+        { 
+            icon: Phone, 
+            title: "Support Hotline", 
+            details: "+1 (555) 123-4567", 
+            action: "tel:+15551234567",
+            iconColor: "text-blue-500"
+        },
+        { 
+            icon: MessageSquare, 
+            title: "Live Chat", 
+            details: "Available M-F, 9am-5pm EST", 
+            action: "#", // Placeholder for Tawk.to or Intercom link
+            iconColor: "text-red-500"
+        },
+        { 
+            icon: MapPin, 
+            title: "Headquarters", 
+            details: "San Francisco, CA, USA", 
+            action: "#", 
+            iconColor: "text-blue-500"
+        },
+    ];
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {cards.map((card, index) => (
+                <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 * index }}
+                    className="p-6 bg-black/40 border border-white/10 rounded-xl space-y-2 hover:border-red-500/40 transition duration-300 shadow-lg"
+                >
+                    <card.icon className={cn("w-6 h-6", card.iconColor)} />
+                    <h4 className="text-lg font-semibold text-white pt-1">{card.title}</h4>
+                    <p className="text-white/60 text-sm">{card.details}</p>
+                    {card.action !== '#' && (
+                        <a href={card.action} className="text-sm font-medium text-red-500 hover:text-red-400 transition block pt-2">
+                            {card.title.includes('Chat') ? 'Start Chat' : card.title.includes('Sales') ? 'Email Us' : 'Call Now'}
+                        </a>
+                    )}
+                </motion.div>
+            ))}
         </div>
-      </footer>
-    </main>
-  )
-}
+    );
+};
+
+
+// ------------------------------------------------------------------------
+// 3. Main Contact Page Component
+// ------------------------------------------------------------------------
+const ContactPage = () => {
+    return (
+        <div className="min-h-screen bg-[#0E0E11] text-white font-sans antialiased flex flex-col">
+            <Header />
+            <main className="flex-grow relative py-20 px-4 overflow-hidden">
+                <Spotlight className="top-10 left-1/4 h-[600px] w-[600px]" fill="rgba(239,68,68, 0.4)" />
+                <div className="relative z-10 max-w-7xl mx-auto">
+                    
+                    {/* Page Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-16"
+                    >
+                        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-500 mb-4">
+                            Connect with PitchGenie
+                        </h1>
+                        <p className="text-xl text-white/70 max-w-3xl mx-auto">
+                            We're here to help founders, agencies, and sales teams reinvent their outreach.
+                        </p>
+                    </motion.div>
+                    
+                    {/* Content Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        {/* Left Column: Info Cards */}
+                        <div className="lg:col-span-1">
+                            <h2 className="text-2xl font-semibold text-white mb-6">Our Contact Channels</h2>
+                            <InfoCards />
+                        </div>
+
+                        {/* Right Column: Contact Form */}
+                        <div className="lg:col-span-2">
+                            <ContactForm />
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+            <Footer />
+        </div>
+    );
+};
+
+export default ContactPage;
