@@ -77,11 +77,11 @@ export default function RootLayout({
           "name": "PitchGenie",
           "applicationCategory": "BusinessApplication",
           "description": "AI-powered cold email and LinkedIn outreach platform for B2B sales",
-          "url": "https://pitchgenie.app",
+          "url": "https://pitchgenie.in",
           "operatingSystem": "Web",
           "offers": {
             "@type": "Offer",
-            "priceCurrency": "USD",
+            "priceCurrency": "INR",
             "price": "Contact for pricing",
             "availability": "https://schema.org/InStock"
           },

@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const FeatureIcon = ({ type }: { type: number }) => {
   const icons = {
@@ -91,7 +93,63 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black px-4 py-20 pt-32">
+       <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
+          {/* Subtle gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+          
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div className="flex flex-col items-center space-y-8 text-center">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark border border-border">
+                <CheckCircle2 className="h-4 w-4 text-accent" />
+                <span className="text-sm text-muted-foreground">Join 2,000+ sales teams already using PitchGenie</span>
+              </div>
+
+              {/* Main heading */}
+              <div className="space-y-4 max-w-3xl">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance">
+                  Generate Personalized Cold Emails
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent mt-2">
+                    That Actually Get Replies
+                  </span>
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  PitchGenie uses AI to analyze your leads and craft unique, engaging emails. Stop wasting time on templates. Start converting leads.
+                </p>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/signup">
+                  <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 gap-2">
+                    Get Started for Free
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="#features">
+                  <Button size="lg" className='rounded-full hover:text-white' variant="outline">Learn More</Button>
+                </Link>
+              </div>
+
+              {/* Trust badges */}
+              <div className="flex flex-col sm:flex-row gap-6 pt-8 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-accent" />
+                  <span>No credit card required</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-accent" />
+                  <span>100+ leads per month free</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-accent" />
+                  <span>Cancel anytime</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      {/* <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black px-4 py-20 pt-32">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-cyan-500/20 via-transparent to-transparent rounded-full blur-3xl opacity-40" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-purple-500/20 via-transparent to-transparent rounded-full blur-3xl opacity-40" />
@@ -130,7 +188,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features */}
       <section id="features" className="relative min-h-screen py-24 px-4 bg-black overflow-hidden">
